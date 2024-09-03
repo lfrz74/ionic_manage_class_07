@@ -1,12 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CapacitorSQLite, JsonSQLite } from '@capacitor-community/sqlite';
+import {
+  CapacitorSQLite,
+  capSQLiteValues,
+  JsonSQLite,
+} from '@capacitor-community/sqlite';
 import { Device } from '@capacitor/device';
 import { Preferences } from '@capacitor/preferences';
 import { AlertController } from '@ionic/angular';
 import { BehaviorSubject, catchError, of, switchMap } from 'rxjs';
 
 import { ToastService } from './toast.service';
+import { Student } from '../models/student';
 
 @Injectable({
   providedIn: 'root',
@@ -131,5 +136,31 @@ export class SqliteManagerService {
       this.dbName = dbName.value;
     }
     return this.dbName;
+  }
+
+  async getStudents(search?: string) {
+    let sql = 'SELECT * FROM students WHERE active = 1';
+    if (search) {
+      sql += ` AND (UPPER(name) LIKE '%${search.toLocaleUpperCase()}%'
+               OR UPPER(surname) LIKE '%${search.toLocaleUpperCase()}%')`
+    }
+
+    const dbName = await this.getDbName();
+    return CapacitorSQLite.query({
+      database: dbName?.toString(),
+      statement: sql,
+    })
+      .then((response: capSQLiteValues) => {
+        let students: Student[] = [];
+        if (response.values) {
+          for (let index = 0; index < response.values.length; index++) {
+            const row = response.values[index];
+            let student = row as Student;
+            students.push(student);
+          }
+        }
+        return Promise.resolve(students);
+      })
+      .catch((error) => Promise.reject(error));
   }
 }

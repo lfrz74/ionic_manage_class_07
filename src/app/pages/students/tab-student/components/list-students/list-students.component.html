@@ -1,0 +1,36 @@
+<ion-grid>
+  <ion-row>
+    <ion-col *ngIf="!showForm">
+      <ion-row>
+        <ion-col>
+          <ion-searchbar
+            (ionInput)="filterListStudents($event)"
+          ></ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <app-list-data
+            [data]="students"
+            emptyText="label.no.students"
+            addText="label.add.student"
+            (add)="onShowForm()"
+          >
+            <ng-template #templateData let-item="item">
+              <ion-item>
+                <ion-label>{{ item.name + " " + item.surname }}</ion-label>
+              </ion-item>
+            </ng-template>
+          </app-list-data>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-col *ngIf="showForm">
+      <app-form-student
+        [student]="studentSelected"
+        (close)="onCloseForm()"
+      ></app-form-student>
+    </ion-col>
+  </ion-row>
+</ion-grid>
