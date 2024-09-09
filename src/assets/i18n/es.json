@@ -16,6 +16,7 @@
     "label.error.message.edit.student": "Error al actualizar el estudiante",
     "label.success.message.remove.student": "¡Estudiante eliminado!",
     "label.error.message.remove.student": "Error al eliminar el estudiante",
+    "label.error": "Error",
     "label.classes": "Clases",
     "label.payment": "Pagos",
     "label.no.clases": "No hay clases",

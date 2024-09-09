@@ -31,6 +31,7 @@
     "label.error.message.edit.class": "Error trying update class",
     "label.success.message.remove.class": "Class removed!",
     "label.error.message.remove.class": "Error trying delete class",
+    "label.error": "Error",
     "label.cancel": "Cancel",
     "label.ok": "OK",
     "label.confirm": "Confirm",
